@@ -24,6 +24,24 @@
     setInterval(muteAll, 1000);
   })();
 </script>
+<script>
+  // The deck-stage element is mounted by the runtime as a real DOM node;
+  // the `no-rail` attribute can't be passed through the <x-import> prop
+  // bridge (it camelCases hyphenated props, so it lands as a useless
+  // "norail" attribute instead). Set it directly once the element exists
+  // to permanently hide the left-hand thumbnail rail.
+  (function(){
+    function apply(){
+      var el = document.querySelector('deck-stage');
+      if (el && !el.hasAttribute('no-rail')) el.setAttribute('no-rail', '');
+      return !!el;
+    }
+    if (!apply()) {
+      var mo = new MutationObserver(function(){ if (apply()) mo.disconnect(); });
+      mo.observe(document.documentElement, {childList:true, subtree:true});
+    }
+  })();
+</script>
 <style>
   @font-face{font-family:'SimplerPro';src:url('assets/SimplerPro_HLAR-Light.otf') format('opentype');font-weight:100 900;font-style:normal;font-display:swap;}
   html,body{margin:0;padding:0;background:#0a0a0a;}
@@ -55,7 +73,7 @@
 </style>
 </helmet>
 
-<x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1440" height="900" hint-size="100%,100%" data-uneditable="" no-rail="">
+<x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1440" height="900" hint-size="100%,100%" data-uneditable="">
 
 <!-- ══════════════ 01 · TITLE ══════════════ -->
 <section data-label="Title" data-speaker-notes="Welcome, and thank you for being here. This is the Choreographic Institute — founded in 2023 in Tel Aviv-Yafo, and the first of its kind in Israel. We exist to support the artist, not just the work. Choreographers and dancers need real conditions to develop over time, not only the pressure to produce — and everything I'll walk you through today follows from that commitment." style="position:relative;width:1440px;height:900px;background:#f4f2ee;color:#161513;font-family:'SimplerPro',sans-serif;overflow:hidden;">

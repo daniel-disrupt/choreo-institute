@@ -597,6 +597,7 @@
       this._onMouseMove = this._onMouseMove.bind(this);
       this._onTap = this._onTap.bind(this);
       this._onMessage = this._onMessage.bind(this);
+      this._onFullscreenChange = this._onFullscreenChange.bind(this);
       // Capture-phase close so a click anywhere dismisses the menu, but
       // ignore clicks that land inside the menu itself — otherwise the
       // capture handler runs before the menu's own (bubble) handler and
@@ -627,6 +628,8 @@
       window.addEventListener('mousemove', this._onMouseMove, { passive: true });
       window.addEventListener('message', this._onMessage);
       window.addEventListener('click', this._onDocClick, true);
+      document.addEventListener('fullscreenchange', this._onFullscreenChange);
+      document.addEventListener('webkitfullscreenchange', this._onFullscreenChange);
       this.addEventListener('click', this._onTap);
       // Print lays every slide out as its own page, so [data-deck-active]-
       // gated entrance styles need the attribute on every slide (not just
@@ -858,6 +861,8 @@
       window.removeEventListener('mousemove', this._onMouseMove);
       window.removeEventListener('message', this._onMessage);
       window.removeEventListener('click', this._onDocClick, true);
+      document.removeEventListener('fullscreenchange', this._onFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', this._onFullscreenChange);
       window.removeEventListener('beforeprint', this._onBeforePrint);
       window.removeEventListener('afterprint', this._onAfterPrint);
       if (this._freezeStyle) { this._freezeStyle.remove(); this._freezeStyle = null; }
@@ -923,11 +928,21 @@
         </button>
         <span class="divider"></span>
         <button class="btn reset" type="button" aria-label="Reset to first slide" title="Reset (R)">Reset<span class="kbd">R</span></button>
+        <span class="divider"></span>
+        <button class="btn fullscreen" type="button" aria-label="Enter fullscreen" aria-pressed="false" title="Fullscreen (F)">
+          <svg class="icon-enter" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2H2v4M10 2h4v4M6 14H2v-4M10 14h4v-4"/></svg>
+          <svg class="icon-exit" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none"><path d="M2 6h4V2M14 6h-4V2M2 10h4v4M14 10h-4v4"/></svg>
+        </button>
       `;
 
       overlay.querySelector('.prev').addEventListener('click', () => this._advance(-1, 'click'));
       overlay.querySelector('.next').addEventListener('click', () => this._advance(1, 'click'));
       overlay.querySelector('.reset').addEventListener('click', () => this._go(0, 'click'));
+      this._fsBtn = overlay.querySelector('.fullscreen');
+      this._fsBtn.addEventListener('click', () => this._toggleFullscreen());
+      if (!(document.fullscreenEnabled || document.webkitFullscreenEnabled)) {
+        this._fsBtn.style.display = 'none';
+      }
 
       // Thumbnail rail + context menu. Thumbnails are populated in
       // _renderRail() after _collectSlides().
@@ -1381,6 +1396,31 @@
       this._advance(e.clientX < mid ? -1 : 1, 'tap');
     }
 
+    _toggleFullscreen() {
+      const active = document.fullscreenElement || document.webkitFullscreenElement;
+      if (active) {
+        if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      } else {
+        const req = this.requestFullscreen || this.webkitRequestFullscreen;
+        if (!req) return;
+        const p = req.call(this);
+        if (p && p.catch) p.catch(() => {});
+      }
+    }
+
+    // Fires on the real browser Fullscreen state (not just our own button),
+    // so Esc / browser chrome exits keep the icon and label in sync.
+    _onFullscreenChange() {
+      if (!this._fsBtn) return;
+      const active = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      this._fsBtn.setAttribute('aria-pressed', String(active));
+      this._fsBtn.setAttribute('aria-label', active ? 'Exit fullscreen' : 'Enter fullscreen');
+      this._fsBtn.title = active ? 'Exit fullscreen (F)' : 'Fullscreen (F)';
+      this._fsBtn.querySelector('.icon-enter').style.display = active ? 'none' : '';
+      this._fsBtn.querySelector('.icon-exit').style.display = active ? '' : 'none';
+    }
+
     _onKey(e) {
       // Ignore when the user is typing.
       const t = e.target;
@@ -1412,6 +1452,8 @@
         this._go(this._slides.length - 1, 'keyboard');
       } else if (key === 'r' || key === 'R') {
         this._go(0, 'keyboard');
+      } else if (key === 'f' || key === 'F') {
+        this._toggleFullscreen();
       } else if (/^[0-9]$/.test(key)) {
         // 1..9 jump to that slide; 0 jumps to 10.
         const n = key === '0' ? 9 : parseInt(key, 10) - 1;
