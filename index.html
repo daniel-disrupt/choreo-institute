@@ -13,15 +13,31 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <script src="./image-slot.js"></script>
 <script>
-  // Force every copy of the background video to stay silent (deck clones slides for the thumbnail rail).
+  // Force every copy of the background video to stay silent and looping
+  // (deck clones slides for the thumbnail rail). The runtime drops the
+  // `loop`/`muted` boolean attributes from the authored markup, so both
+  // have to be re-applied imperatively; pause+rewind once the slide goes
+  // inactive so it doesn't keep playing in the background after moving on.
   (function(){
-    function muteAll(){
-      document.querySelectorAll('video').forEach(function(v){ v.muted = true; v.volume = 0; v.defaultMuted = true; });
+    function fixAll(){
+      document.querySelectorAll('video[autoplay]').forEach(function(v){
+        v.muted = true; v.volume = 0; v.defaultMuted = true;
+        v.loop = true;
+        var section = v.closest('section');
+        var active = !section || section.hasAttribute('data-deck-active');
+        if (active) {
+          if (v.paused) v.play().catch(function(){});
+        } else if (!v.paused) {
+          v.pause();
+          v.currentTime = 0;
+        }
+      });
     }
-    muteAll();
+    fixAll();
     document.addEventListener('play', function(e){ if(e.target && e.target.tagName === 'VIDEO'){ e.target.muted = true; e.target.volume = 0; } }, true);
-    new MutationObserver(muteAll).observe(document.documentElement, {childList:true, subtree:true});
-    setInterval(muteAll, 1000);
+    document.addEventListener('ended', function(e){ if(e.target && e.target.tagName === 'VIDEO' && e.target.loop){ e.target.currentTime = 0; e.target.play().catch(function(){}); } }, true);
+    new MutationObserver(fixAll).observe(document.documentElement, {childList:true, subtree:true, attributes:true, attributeFilter:['data-deck-active']});
+    setInterval(fixAll, 1000);
   })();
 </script>
 <script>
