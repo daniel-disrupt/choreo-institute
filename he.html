@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail">
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+<rect width="400" height="400" fill="#161513"></rect>
+<circle cx="200" cy="185" r="70" fill="none" stroke="#f4f2ee" stroke-width="2" stroke-opacity="0.85"></circle>
+<circle cx="200" cy="185" r="48" fill="none" stroke="#f4f2ee" stroke-width="1.5" stroke-opacity="0.5"></circle>
+<text x="200" y="300" fill="#f4f2ee" font-family="Georgia, serif" font-size="42" font-weight="300" text-anchor="middle">מכון</text>
+</svg>
+</template>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<script>
+  // Force every copy of the background video to stay silent (deck clones slides for the thumbnail rail).
+  (function(){
+    function muteAll(){
+      document.querySelectorAll('video').forEach(function(v){ v.muted = true; v.volume = 0; v.defaultMuted = true; });
+    }
+    muteAll();
+    document.addEventListener('play', function(e){ if(e.target && e.target.tagName === 'VIDEO'){ e.target.muted = true; e.target.volume = 0; } }, true);
+    new MutationObserver(muteAll).observe(document.documentElement, {childList:true, subtree:true});
+    setInterval(muteAll, 1000);
+  })();
+</script>
+<style>
+  @font-face{font-family:'SimplerPro';src:url('assets/SimplerPro_HLAR-Light.otf') format('opentype');font-weight:100 900;font-style:normal;font-display:swap;}
+  html,body{margin:0;padding:0;background:#0a0a0a;}
+  *{box-sizing:border-box;}
+  section ::selection{background:#161513;color:#f4f2ee;}
+  /* ── entrance system: gated on deck-stage's active slide ── */
+  section .rise{opacity:0;}
+  section[data-deck-active] .rise{animation:riseIn .9s cubic-bezier(.22,.72,.2,1) both;}
+  section .fade{opacity:0;}
+  section[data-deck-active] .fade{animation:fadeIn 1.1s ease both;}
+  section .draw{stroke-dasharray:1;stroke-dashoffset:1;}
+  section[data-deck-active] .draw{animation:drawIn 1.5s cubic-bezier(.55,.08,.2,1) both;}
+  section .clip{clip-path:inset(0 100% 0 0);}
+  section[data-deck-active] .clip{animation:clipIn 1.1s cubic-bezier(.72,0,.16,1) both;}
+  section .clipd{clip-path:inset(100% 0 0 0);}
+  section[data-deck-active] .clipd{animation:clipDown 1.1s cubic-bezier(.72,0,.16,1) both;}
+  section .grow{transform:scaleX(0);transform-origin:left center;}
+  section[data-deck-active] .grow{animation:growX 1s cubic-bezier(.55,.08,.2,1) both;}
+  @keyframes riseIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+  @keyframes fadeIn{to{opacity:1}}
+  @keyframes drawIn{to{stroke-dashoffset:0}}
+  @keyframes clipIn{to{clip-path:inset(0 0 0 0)}}
+  @keyframes clipDown{to{clip-path:inset(0 0 0 0)}}
+  @keyframes growX{to{transform:scaleX(1)}}
+  /* ── slide 02: the paradigm shift — field today glides aside as the new approach arrives ── */
+  section .field-shift{transform:translateX(-215px);}
+  section[data-deck-active] .field-shift{animation:fieldShift 4s cubic-bezier(.5,0,.14,1) both;}
+  @keyframes fieldShift{0%,45%{transform:translateX(-215px);}100%{transform:translateX(0);}}
+</style>
+</helmet>
+
+<x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1440" height="900" hint-size="100%,100%" data-uneditable="">
+
+<!-- ══════════════ 01 · TITLE ══════════════ -->
+<section data-label="Title" data-speaker-notes="Welcome, and thank you for being here. This is the Choreographic Institute — founded in 2023 in Tel Aviv-Yafo, and the first of its kind in Israel. We exist to support the artist, not just the work. Choreographers and dancers need real conditions to develop over time, not only the pressure to produce — and everything I'll walk you through today follows from that commitment." style="position:relative;width:1440px;height:900px;background:#f4f2ee;color:#161513;font-family:'SimplerPro',sans-serif;overflow:hidden;">
+  <svg viewBox="0 0 1440 900" width="1440" height="900" style="position:absolute;inset:0;" fill="none">
+    <line class="draw" pathLength="1" x1="1440" y1="726" x2="0" y2="612" stroke="#161513" stroke-opacity="0.18" stroke-width="1" style="animation-delay:.5s"></line>
+    <circle class="draw" pathLength="1" cx="224" cy="726" r="150" stroke="#161513" stroke-opacity="0.14" stroke-width="1" style="animation-delay:.8s"></circle>
+    <path class="draw" pathLength="1" d="M1320 250 L1320 660" stroke="#161513" stroke-opacity="0.2" stroke-width="1" style="animation-delay:.35s"></path>
+  </svg>
+
+  <!-- signature primitives, upper right -->
+  <svg class="fade" viewBox="0 0 120 30" width="120" height="30" style="position:absolute;left:1150px;top:150px;animation-delay:.5s;" fill="none">
+    <path d="M2 4 L28 4 L15 26 Z" stroke="#161513" stroke-width="1.2"></path>
+    <path d="M46 4 a13 13 0 0 1 0 26 Z" fill="#161513"></path>
+    <circle cx="102" cy="15" r="13" stroke="#161513" stroke-width="1.2"></circle>
+  </svg>
+
+  <!-- main logo, centered -->
+  <img class="clip" src="assets/logo-crop.jpg" alt="The Choreographic Institute" style="position:absolute;left:210px;top:248px;width:1020px;mix-blend-mode:multiply;animation-delay:.55s;">
+
+  <!-- about blurb, centered -->
+  <div class="rise" style="position:absolute;left:100px;top:648px;width:1240px;font-weight:300;font-size:30px;line-height:1.8;letter-spacing:-.005em;color:#4d4b46;text-align:center;direction:rtl;animation-delay:.8s;">הראשון מסוגו בישראל&nbsp;·&nbsp;מוקדש לפיתוח האמנותי של כוריאוגרפיות.ים ורקדניות.ים עצמאיות.ים<br>הרחבת פרקטיקות של מחול וכוריאוגרפיה&nbsp;·&nbsp;מחקר אמנותי מעמיק ופיתוח קריירה אסטרטגי<br>תהליך והתנסות על פני תוצר&nbsp;·&nbsp;תמיכה באמנית, לא ביצירה</div>
+
+  <!-- number + label -->
+  <div class="rise" style="position:absolute;left:64px;top:64px;font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:.16em;text-transform:uppercase;text-align:left;animation-delay:.4s;"><span data-num="" style="color:rgba(22,21,19,.4);">01</span><span style="margin-left:1.1em;color:rgba(22,21,19,.74);">The Institute</span></div>
+  <div class="rise" style="position:absolute;left:64px;bottom:56px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(22,21,19,.4);animation-delay:1.2s;">Founded 2023 &nbsp;·&nbsp; Tel Aviv-Yafo</div>
+</section>
+
+<!-- ══════════════ 02 · THE PARADIGM SHIFT ══════════════ -->
+<section data-label="Landscape and Need" data-speaker-notes="To understand what we do, it helps to look at the field as it is. Today it largely rewards output — short-term frameworks, product-focused platforms, scarcity and competition, support that follows the work rather than the artist. On screen you can see that reality alongside the approach we're proposing instead: long-term relationships, process over product, and an ecosystem built on mutual support. This is the shift at the center of our work — from producing work to developing artists." style="position:relative;width:1440px;height:900px;background:#161513;color:#f4f2ee;font-family:'SimplerPro',sans-serif;overflow:hidden;">
+  <svg viewBox="0 0 1440 900" width="1440" height="900" style="position:absolute;inset:0;" fill="none">
+    <line class="draw" pathLength="1" x1="815" y1="330" x2="815" y2="742" stroke="#f4f2ee" stroke-opacity="0.16" stroke-width="1" style="animation-delay:.5s"></line>
+    <circle class="draw" pathLength="1" cx="150" cy="470" r="180" stroke="#f4f2ee" stroke-opacity="0.09" stroke-width="1" style="animation-delay:.7s"></circle>
+  </svg>
+
+  <!-- marker -->
+  <div class="rise" style="position:absolute;left:64px;top:64px;font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:.16em;text-transform:uppercase;text-align:left;animation-delay:.3s;"><span data-num="" style="color:rgba(244,242,238,.4);">02</span><span style="margin-left:1.1em;color:rgba(244,242,238,.78);">The Landscape &nbsp;·&nbsp; The Need &nbsp;·&nbsp; The Paradigm Shift</span></div>
+
+  <!-- paradigm shift headline -->
+  <div style="position:absolute;right:130px;top:176px;width:1300px;font-weight:300;font-size:60px;line-height:1.0;letter-spacing:-.028em;text-align:right;direction:rtl;white-space:nowrap;"><span class="rise" style="display:inline-block;color:rgba(244,242,238,.5);animation-delay:.4s;">מהפקת יצירות,</span> <span class="rise" style="display:inline-block;color:#f4f2ee;animation-delay:1.85s;">לפיתוח אמניות.ים</span></div>
+
+  <!-- LEFT column: the field today (enters centered; then glides left aside) -->
+  <div class="field-shift" style="position:absolute;inset:0;">
+  <div class="rise" style="position:absolute;right:130px;top:320px;width:640px;font-family:'IBM Plex Mono',monospace;font-size:26px;line-height:1;letter-spacing:.12em;text-transform:uppercase;color:rgba(244,242,238,.5);text-align:right;animation-delay:.38s;">השדה כיום</div>
+  <div style="position:absolute;right:130px;top:376px;width:640px;">
+    <div class="rise" style="height:50px;display:flex;align-items:center;justify-content:flex-end;font-weight:300;font-size:24px;color:rgba(244,242,238,.4);text-align:right;white-space:nowrap;animation-delay:0.42s;">מסגרות מבודדות וקצרות טווח</div>
+    <div class="rise" style="height:50px;display:flex;align-items:center;justify-content:flex-end;font-weight:300;font-size:24px;color:rgba(244,242,238,.4);text-align:right;white-space:nowrap;animation-delay:0.47s;">פלטפורמות ממוקדות תוצר; דרישה לייצור יתר</div>
+    <div class="rise" style="height:50px;display:flex;align-items:center;justify-content:flex-end;font-weight:300;font-size:24px;color:rgba(244,242,238,.4);text-align:right;white-space:nowrap;animation-delay:0.52s;">תפיסת מחסור ותחרותיות</div>
+    <div class="rise" style="height:50px;display:flex;align-items:center;justify-content:flex-end;font-weight:300;font-size:24px;color:rgba(244,242,238,.4);text-align:right;white-space:nowrap;animation-delay:0.57s;">הישרדות על פני קיימוּת</div>
+    <div class="rise" style="height:50px;display:flex;align-items:center;justify-content:flex-end;font-weight:300;font-size:24px;color:rgba(244,242,238,.4);text-align:right;white-space:nowrap;animation-delay:0.62s;">התמקדות באמניות.ים צעירות.ים מאוד</div>
+    <div class="rise" style="height:50px;display:flex;align-items:center;justify-content:flex-end;font-weight:300;font-size:24px;color:rgba(244,242,238,.4);text-align:right;white-space:nowrap;animation-delay:0.67s;">מימון ומשאבים לא מספקים</div>
+    <div class="rise" style="height:50px;display:flex;align-items:center;justify-content:flex-end;font-weight:300;font-size:24px;color:rgba(244,242,238,.4);text-align:right;white-space:nowrap;animation-delay:0.72s;">תמיכה בתוצר, לא באמנית</div>
+  </div>
+  </div>
+
+  <!-- RIGHT column: the approach, the values (rises in as the field is displaced) -->
+  <div class="rise" style="position:absolute;left:130px;top:320px;width:640px;font-family:'IBM Plex Mono',monospace;font-size:26px;line-height:1;letter-spacing:.12em;text-transform:uppercase;color:#f4f2ee;text-align:right;animation-delay:1.85s;">הגישה — הערכים</div>
+  <div class="grow" style="position:absolute;left:130px;top:356px;width:640px;height:1px;background:rgba(244,242,238,.32);transform-origin:right center;animation-delay:1.9s;"></div>
+  <div style="position:absolute;left:130px;top:376px;width:640px;">
+    <div class="rise" style="height:50px;display:flex;justify-content:flex-end;align-items:center;gap:13px;font-weight:300;font-size:26px;color:#f4f2ee;text-align:right;animation-delay:2.0s;"><span>מעורבות ארוכת טווח ומתמשכת</span><svg width="12" height="11" viewBox="0 0 13 12" style="flex:none;"><path d="M1 2 L12 2 L6.5 11 Z" fill="#f4f2ee"></path></svg></div>
+    <div class="rise" style="height:50px;display:flex;justify-content:flex-end;align-items:center;gap:13px;font-weight:300;font-size:26px;color:#f4f2ee;text-align:right;animation-delay:2.1s;"><span>תהליך על פני תוצר; תמיכה ללא דרישה לייצור</span><svg width="12" height="11" viewBox="0 0 13 12" style="flex:none;"><path d="M1 2 L12 2 L6.5 11 Z" fill="#f4f2ee"></path></svg></div>
+    <div class="rise" style="height:50px;display:flex;justify-content:flex-end;align-items:center;gap:13px;font-weight:300;font-size:26px;color:#f4f2ee;text-align:right;animation-delay:2.2s;"><span>אקוסיסטם של תמיכה הדדית</span><svg width="12" height="11" viewBox="0 0 13 12" style="flex:none;"><path d="M1 2 L12 2 L6.5 11 Z" fill="#f4f2ee"></path></svg></div>
+    <div class="rise" style="height:50px;display:flex;justify-content:flex-end;align-items:center;gap:13px;font-weight:300;font-size:26px;color:#f4f2ee;text-align:right;animation-delay:2.3s;"><span>העצמה וייצוג של אמניות.ים</span><svg width="12" height="11" viewBox="0 0 13 12" style="flex:none;"><path d="M1 2 L12 2 L6.5 11 Z" fill="#f4f2ee"></path></svg></div>
+    <div class="rise" style="height:50px;display:flex;justify-content:flex-end;align-items:center;gap:13px;font-weight:300;font-size:26px;color:#f4f2ee;text-align:right;animation-delay:2.4s;"><span>פיתוח לאמניות.ים בכל שלבי הקריירה</span><svg width="12" height="11" viewBox="0 0 13 12" style="flex:none;"><path d="M1 2 L12 2 L6.5 11 Z" fill="#f4f2ee"></path></svg></div>
+    <div class="rise" style="height:50px;display:flex;justify-content:flex-end;align-items:center;gap:13px;font-weight:300;font-size:26px;color:#f4f2ee;text-align:right;animation-delay:2.5s;"><span>תמיכה הוליסטית ואסטרטגית</span><svg width="12" height="11" viewBox="0 0 13 12" style="flex:none;"><path d="M1 2 L12 2 L6.5 11 Z" fill="#f4f2ee"></path></svg></div>
+    <div class="rise" style="height:50px;display:flex;justify-content:flex-end;align-items:center;gap:13px;font-weight:300;font-size:26px;color:#f4f2ee;text-align:right;animation-delay:2.6s;"><span>מרחב להתנסות, לשאילת שאלות ולכישלון</span><svg width="12" height="11" viewBox="0 0 13 12" style="flex:none;"><path d="M1 2 L12 2 L6.5 11 Z" fill="#f4f2ee"></path></svg></div>
+  </div>
+
+</section>
+
+<!-- ══════════════ 04 · OUR PROGRAMS ══════════════ -->
+<section data-label="Programs" data-speaker-notes="These are our core programs. The Choreographers Circle is our anchor — a year-long accompaniment for a cohort of choreographers, built on peer exchange and one-on-one mentorship, with no requirement to make a finished piece. Toolkit is a six-month mentorship for around twenty independent dancers, guided by established artists in the field. And Perspectives from the Field is a residency for dancers to research their own practice, independent of a choreographer. The names below are the artists who have been part of the Circle so far." style="position:relative;width:1440px;height:900px;background:#f4f2ee;color:#161513;font-family:'SimplerPro',sans-serif;overflow:hidden;">
+  <svg viewBox="0 0 1440 900" width="1440" height="900" style="position:absolute;inset:0;" fill="none">
+    <!-- big CIRCLE motif for "Choreographers Circle", bleeding right, behind photo -->
+    <circle class="draw" pathLength="1" cx="260" cy="450" r="430" stroke="#161513" stroke-opacity="0.13" stroke-width="1" style="animation-delay:.5s"></circle>
+    <circle class="draw" pathLength="1" cx="260" cy="450" r="300" stroke="#161513" stroke-opacity="0.09" stroke-width="1" style="animation-delay:.7s"></circle>
+  </svg>
+
+  <!-- number vertical on left edge -->
+  <div class="rise" style="position:absolute;left:64px;top:64px;font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:.16em;text-transform:uppercase;text-align:left;animation-delay:.4s;"><span data-num="" style="color:rgba(22,21,19,.4);">03</span><span style="margin-left:1.1em;color:rgba(22,21,19,.74);">The Programs &nbsp;·&nbsp; Artistic Development</span></div>
+
+  <!-- RIGHT COLUMN — flowing container so dividers follow the text -->
+  <div style="position:absolute;right:120px;top:120px;width:680px;text-align:right;">
+
+    <!-- PROGRAM 1 — Choreographers Circle (anchor) -->
+    <div class="rise" style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,21,19,.5);animation-delay:.58s;">Choreographers Circle</div>
+    <div class="rise" style="font-weight:300;font-size:58px;line-height:1.1;direction:rtl;margin-top:8px;animation-delay:.62s;">מעגל כוריאוגרפיות</div>
+    <div class="rise" style="font-weight:300;font-size:22px;line-height:1.45;color:#4d4b46;width:600px;margin:18px 0 0 auto;direction:rtl;animation-delay:.74s;">תוכנית ליווי אמנותית שנתית לכוריאוגרפיות.ים&nbsp; ·&nbsp; תמיכה הוליסטית וארוכת טווח&nbsp; ·&nbsp; ללא ציפייה למוצר סופי&nbsp; ·&nbsp; ליווי אישי אחד-על-אחד&nbsp; ·&nbsp; תוכנית אצורה של דיונים, למידה משותפת ואורחות.ים</div>
+    <div class="rise" style="line-height:1.6;margin-top:16px;direction:rtl;animation-delay:.82s;"><span style="font-weight:300;font-size:16px;color:rgba(22,21,19,.52);">אמניות.י המעגל, בעבר ובהווה:</span> <span style="font-weight:300;font-size:16px;color:rgba(22,21,19,.52);">דניאל גליה קינד, גלעד ירושלמי, נעה שדור, רייצ׳ל ארדוס, שקד מוכיח, אנדראה קוסטנזו מרטיני, אנאבל דביר, אוליביה קורט מסה, רוני חדש, טליה בק</span></div>
+
+    <!-- divider: after the Circle, before Toolkit -->
+    <div class="grow" style="width:100%;height:1px;background:rgba(22,21,19,.18);transform-origin:right center;margin-top:30px;animation-delay:.88s;"></div>
+
+    <!-- PROGRAM 2 — Toolkit -->
+    <div class="rise" style="margin-top:26px;animation-delay:.9s;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,21,19,.5);">Toolkit</div>
+      <div style="font-weight:300;font-size:48px;line-height:1.1;direction:rtl;margin-top:4px;">ארגז כלים</div>
+      <div style="font-weight:300;font-size:20px;line-height:1.45;color:#4d4b46;margin-top:10px;direction:rtl;">תכנית מנטורינג של חצי שנה ל־20 רקדניות.ים עצמאיות.ים&nbsp; ·&nbsp; בהנחיית מנטוריות.ים מנוסות.ים מהתחום&nbsp; ·&nbsp; תמיכה מעשית, מקצועית ומנטלית בהתנהלות בשדה</div>
+    </div>
+
+    <!-- PROGRAM 3 — Perspectives from the Field (no divider above) -->
+    <div class="rise" style="margin-top:46px;animation-delay:1s;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,21,19,.5);">Perspectives from the Field</div>
+      <div style="font-weight:300;font-size:48px;line-height:1.1;direction:rtl;margin-top:4px;">פרספקטיבות מהשטח</div>
+      <div style="font-weight:300;font-size:20px;line-height:1.45;color:#4d4b46;margin-top:10px;direction:rtl;">תכנית רזידנסי לרקדניות.ים עצמאיות.ים&nbsp; ·&nbsp; מחקר בפרקטיקה של הרקדנית-המבצעת, ללא תלות בכוריאוגרפית&nbsp; ·&nbsp; ניסוח והעמקה של כלים, טכניקות, ידע גופני וניסיון</div>
+    </div>
+
+    <!-- closing divider -->
+    <div class="grow" style="width:100%;height:1px;background:rgba(22,21,19,.18);transform-origin:right center;margin-top:28px;animation-delay:1.08s;"></div>
+  </div>
+
+  <!-- photo, offset high & bleeding right, inside the circle motif -->
+  <div class="clipd" style="position:absolute;left:88px;top:200px;width:510px;height:660px;overflow:hidden;animation-delay:.6s;">
+    <img src="assets/circle.jpg" alt="Choreographers Circle" style="width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.05);">
+  </div>
+  <div class="rise" style="position:absolute;left:88px;top:872px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(22,21,19,.5);animation-delay:1s;">Choreographers Circle</div>
+</section>
+
+<!-- ══════════════ 04B · DISCOURSE & FIELD RESPONSE ══════════════ -->
+<section data-label="Programs — Discourse" data-speaker-notes="Alongside the programs, discourse is central to what we do. Conversations on Israeli Dance is our ongoing series of public and private events, bringing artists, thinkers and cultural figures together around the work and the realities of making it. The first series, Where We Stand Now, looks honestly at the past few years — the boycotts, cancellations and isolation many Israeli artists have faced. And in the aftermath of October 7, we helped form a coalition to support artists facing discrimination abroad, with legal guidance, safety protocols, documentation and direct assistance. More than 150 artists have taken part." style="position:relative;width:1440px;height:900px;background:#161513;color:#f4f2ee;font-family:'SimplerPro',sans-serif;overflow:hidden;">
+  <svg viewBox="0 0 1440 900" width="1440" height="900" style="position:absolute;inset:0;" fill="none">
+    <line class="draw" pathLength="1" x1="720" y1="220" x2="720" y2="720" stroke="#f4f2ee" stroke-opacity="0.14" stroke-width="1" style="animation-delay:.4s"></line>
+    <path class="draw" pathLength="1" d="M260 96 L100 96 L180 236 Z" stroke="#f4f2ee" stroke-opacity="0.12" stroke-width="1" style="animation-delay:.6s"></path>
+  </svg>
+
+  <div class="rise" style="position:absolute;left:64px;top:64px;font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:.16em;text-transform:uppercase;text-align:left;animation-delay:.35s;"><span data-num="" style="color:rgba(244,242,238,.4);">04</span><span style="margin-left:1.1em;color:rgba(244,242,238,.78);">The Programs &nbsp;·&nbsp; Discourse &nbsp;·&nbsp; Field Response</span></div>
+
+  <!-- LEFT: Conversations on Dance -->
+  <div class="rise" style="position:absolute;left:130px;top:198px;width:520px;font-family:'IBM Plex Mono',monospace;font-size:14.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,242,238,.55);text-align:right;animation-delay:.62s;">Conversations on [Israeli] Dance</div>
+  <div class="rise" style="position:absolute;left:130px;top:224px;width:520px;font-weight:300;font-size:56px;line-height:1.05;text-align:right;direction:rtl;white-space:nowrap;animation-delay:.68s;">שיחות על מחול [ישראלי]</div>
+  <div class="rise" style="position:absolute;left:130px;top:318px;width:520px;font-weight:300;font-size:23px;line-height:1.45;color:rgba(244,242,238,.62);text-align:right;direction:rtl;animation-delay:.76s;">פלטפורמה מתמשכת לשיח — אירועים ציבוריים ופרטיים המפגישים אמניות.ים, הוגות.ים ואנשי.נשות תרבות מקומיות.ים ובינלאומיות.ים לשיחה על פרקטיקה אמנותית ועל מציאות העבודה בשדה מורכב ומשתנה.</div>
+  <div class="grow" style="position:absolute;left:130px;top:474px;width:520px;height:1px;background:rgba(244,242,238,.2);animation-delay:.82s;"></div>
+  <div class="rise" style="position:absolute;left:130px;top:500px;width:520px;font-family:'IBM Plex Mono',monospace;font-size:16px;letter-spacing:.13em;text-transform:uppercase;color:rgba(244,242,238,.5);text-align:right;animation-delay:.86s;">First Series · Where We Stand Now</div>
+  <div class="rise" style="position:absolute;left:130px;top:526px;width:520px;font-weight:300;font-size:21px;line-height:1.35;color:rgba(244,242,238,.72);text-align:right;direction:rtl;animation-delay:.90s;">איפה אנחנו עומדות עכשיו — שיחות על מחול [ישראלי] אחרי ה־7 באוקטובר</div>
+  <div class="rise" style="position:absolute;left:130px;top:590px;width:520px;font-weight:300;font-size:20px;line-height:1.4;color:rgba(244,242,238,.55);text-align:right;direction:rtl;animation-delay:.94s;">כמעט שלוש שנים בתוך מציאות שהשתנתה עבור אמניות.ים מישראל — קשרים שנפגעו, הופעות שבוטלו, חרם, צנזורה ובידוד מעמיק. מרחב מוגן לשאול לא רק מה מתרחש סביבנו, אלא מה למדנו מן השבר, היכן יש לנו סוכנות, ואיזה תיקון או דמיון מחדש אפשריים כעת.</div>
+  <div class="rise" style="position:absolute;left:130px;top:790px;width:520px;font-family:'IBM Plex Mono',monospace;font-size:16px;letter-spacing:.06em;color:rgba(244,242,238,.72);text-align:right;direction:rtl;animation-delay:.98s;">180 כוריאוגרפיות.ים, רקדניות.ים, מנהלות.י אמנות ופסטיבלים וחוקרות.ים — ישראליות.ים ובינלאומיות.ים, מ־15 מדינות.</div>
+
+  <!-- RIGHT: Call to Action -->
+  <div class="rise" style="position:absolute;right:130px;top:198px;width:520px;font-family:'IBM Plex Mono',monospace;font-size:14.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,242,238,.55);text-align:right;animation-delay:.94s;">Call to Action</div>
+  <div class="rise" style="position:absolute;right:130px;top:224px;width:520px;font-weight:300;font-size:56px;line-height:1.05;text-align:right;direction:rtl;animation-delay:1.0s;">קריאה לפעולה</div>
+  <div class="rise" style="position:absolute;right:130px;top:318px;width:520px;font-weight:300;font-size:23px;line-height:1.45;color:rgba(244,242,238,.62);text-align:right;direction:rtl;animation-delay:1.08s;">יוזמה שהוקמה מיד לאחר ה־7 באוקטובר, בתגובה לעמדות אנטי-ישראליות גורפות בעולם המחול המקצועי ולפגיעות מקצועיות ברקדניות.ים, ביוצרות.ים ובחוקרות.ים ישראליות.ים בחו״ל. קואליציה של אנשי.נשות מקצוע ומוסדות מחול חברה יחד כדי להציע מרחב לדיאלוג, קבוצות חשיבה ועבודה, פרוטוקולים לביטחון בנסיעות ובמופעים, תיעוד מקרים פרטניים, ייעוץ משפטי במקרי הפרת חוזה על רקע אפליה, והפניה לאנשי.נשות מקצוע מהימנות.ים.</div>
+  <div class="rise" style="position:absolute;right:130px;top:800px;width:520px;font-family:'IBM Plex Mono',monospace;font-size:16px;letter-spacing:.06em;color:rgba(244,242,238,.72);text-align:right;direction:rtl;animation-delay:1.14s;">מעל 150 אמניות.ים ואנשי.נשות מקצוע מהמחול בישראל הצטרפו לפורומים המקוונים.</div>
+</section>
+
+<!-- ══════════════ VOICES FROM THE FIELD ══════════════ -->
+<section data-label="Voices" data-speaker-notes="I'd like to let an artist speak here, because it carries more than my summary can. This is Roni Chadash — an independent choreographer and a Circle artist — on what the program gave her. I'll let it land for a moment." style="position:relative;width:1440px;height:900px;background:#f4f2ee;color:#161513;font-family:'SimplerPro',sans-serif;overflow:hidden;">
+  <!-- background video: grayscale, low opacity, behind the quote -->
+  <video src="assets/voices-bg.mp4" autoplay loop muted playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);opacity:.34;"></video>
+  <div style="position:absolute;inset:0;background:rgba(244,242,238,.5);"></div>
+
+  <svg viewBox="0 0 1440 900" width="1440" height="900" style="position:absolute;inset:0;" fill="none">
+    <!-- large semicircle motif from the logo, bottom-right -->
+    <path class="draw" pathLength="1" d="M0 470 a230 230 0 0 1 460 0" stroke="#161513" stroke-opacity="0.13" stroke-width="1" style="animation-delay:.6s"></path>
+    <line class="draw" pathLength="1" x1="740" y1="120" x2="740" y2="800" stroke="#161513" stroke-opacity="0.14" stroke-width="1" style="animation-delay:.4s"></line>
+  </svg>
+
+  <!-- oversized quote mark -->
+  <div class="fade" style="position:absolute;right:300px;top:150px;font-weight:300;font-size:150px;line-height:.5;color:rgba(22,21,19,.55);animation-delay:.55s;">“</div>
+
+  <!-- quote block, centered on slide -->
+  <div style="position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:900px;display:flex;flex-direction:column;align-items:center;gap:22px;">
+    <div class="rise" style="width:100%;font-weight:300;font-size:34px;line-height:1.4;letter-spacing:-.005em;direction:rtl;text-align:right;color:#161513;animation-delay:.7s;">המעגל נתן לי כלים יעילים למגוון התמודדויות - בין אם בפן היצירתי, המחשבתי, הניסוחי והדרמטורגי ובין אם בפן ההפקתי, הכלכלי, הניהולי והאדמיניסטרטיבי. לשרה יש המון ידע לשתף ששדרג ודייק עבורי נושאים רבים ולמעגל עצמו יש פוטנציאל תמיכה ושיתוף שהם חשובים ומלמדים לא פחות.</div>
+    <div class="rise" style="width:100%;font-weight:300;font-size:18.5px;line-height:1.5;direction:ltr;text-align:left;color:#57554f;animation-delay:.85s;">The Circle gave me tools equal to every kind of challenge — the creative and the intellectual, the shaping of an idea and its dramaturgy, and no less the practical: producing, budgeting, managing, the quiet administrative work that holds it all together. Sarah has so much knowledge to share, and she sharpened and refined so much for me — and the Circle itself offers a support and exchange every bit as vital, and just as much a teacher.</div>
+    <div class="grow" style="width:64px;height:1px;background:#161513;margin-top:8px;animation-delay:1.1s;"></div>
+    <div class="rise" style="font-weight:300;font-size:26px;line-height:1.1;color:#161513;text-align:center;direction:rtl;animation-delay:1.15s;">רוני חדש</div>
+    <div class="rise" style="font-weight:300;font-size:16.5px;line-height:1.4;color:#57554f;text-align:center;margin-top:-14px;animation-delay:1.22s;">Roni Chadash</div>
+  </div>
+
+  <!-- slide marker -->
+  <div class="rise" style="position:absolute;left:64px;top:64px;font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:.16em;text-transform:uppercase;text-align:left;animation-delay:.4s;"><span data-num="" style="color:rgba(22,21,19,.4);">05</span><span style="margin-left:1.1em;color:rgba(22,21,19,.74);">Voices from the Field</span></div>
+</section>
+
+<!-- ══════════════ 05 · THE PEOPLE ══════════════ -->
+<section data-label="Who We Are" data-speaker-notes="A few words on who's behind this. The Institute was founded in 2023 by three of us — Sarah, Tamar and Nitsan. Sarah, our artistic and executive director, brings over twenty years in the field, from Gibney and Movement Research in New York to leading international programs at Suzanne Dellal. Tamar is a dancer and organizer who has spent years building sustainable conditions for freelance dancers. Nitsan is a choreographer, curator and community organizer with an international career. Tamar and Nitsan co-founded The Platform for Independent Dancers in 2020, and together the three of us formed the Institute." style="position:relative;width:1440px;height:900px;background:#f4f2ee;color:#161513;font-family:'SimplerPro',sans-serif;overflow:hidden;">
+  <svg viewBox="0 0 1440 900" width="1440" height="900" style="position:absolute;inset:0;" fill="none">
+    <!-- constellation edges (irregular) -->
+    <line class="draw" pathLength="1" x1="1140" y1="285" x2="330" y2="205" stroke="#161513" stroke-opacity="0.28" stroke-width="1" style="animation-delay:.55s"></line>
+    <line class="draw" pathLength="1" x1="1140" y1="285" x2="660" y2="505" stroke="#161513" stroke-opacity="0.28" stroke-width="1" style="animation-delay:.7s"></line>
+    <line class="draw" pathLength="1" x1="330" y1="205" x2="660" y2="505" stroke="#161513" stroke-opacity="0.28" stroke-width="1" style="animation-delay:.85s"></line>
+    <!-- node halos -->
+    <circle class="draw" pathLength="1" cx="1140" cy="285" r="100" stroke="#161513" stroke-opacity="0.14" stroke-width="1" style="animation-delay:.5s"></circle>
+    <circle class="draw" pathLength="1" cx="330" cy="205" r="100" stroke="#161513" stroke-opacity="0.14" stroke-width="1" style="animation-delay:.9s"></circle>
+    <circle class="draw" pathLength="1" cx="660" cy="505" r="100" stroke="#161513" stroke-opacity="0.14" stroke-width="1" style="animation-delay:1s"></circle>
+    <!-- scattered background stars -->
+    <circle cx="1225" cy="175" r="2" fill="#161513" fill-opacity="0.26"></circle>
+    <circle cx="880" cy="150" r="1.6" fill="#161513" fill-opacity="0.22"></circle>
+    <circle cx="190" cy="180" r="2.4" fill="#161513" fill-opacity="0.28"></circle>
+    <circle cx="260" cy="405" r="1.8" fill="#161513" fill-opacity="0.22"></circle>
+    <circle cx="1140" cy="470" r="2.2" fill="#161513" fill-opacity="0.26"></circle>
+    <circle cx="780" cy="360" r="1.6" fill="#161513" fill-opacity="0.2"></circle>
+    <circle cx="345" cy="475" r="2" fill="#161513" fill-opacity="0.24"></circle>
+    <circle cx="920" cy="250" r="1.5" fill="#161513" fill-opacity="0.2"></circle>
+    <circle cx="505" cy="145" r="2.1" fill="#161513" fill-opacity="0.24"></circle>
+    <circle cx="740" cy="225" r="1.7" fill="#161513" fill-opacity="0.2"></circle>
+    <!-- tick crosses -->
+    <path d="M1277 400 h13 M1283.5 393.5 v13" stroke="#161513" stroke-opacity="0.3" stroke-width="1"></path>
+    <path d="M129 300 h13 M135.5 293.5 v13" stroke="#161513" stroke-opacity="0.3" stroke-width="1"></path>
+    <!-- footnotes divider -->
+    <line class="draw" pathLength="1" x1="130" y1="640" x2="1310" y2="640" stroke="#161513" stroke-opacity="0.15" stroke-width="1" style="animation-delay:1.2s"></line>
+  </svg>
+
+  <!-- marker -->
+  <div class="rise" style="position:absolute;left:64px;top:64px;font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:.16em;text-transform:uppercase;text-align:left;animation-delay:.35s;"><span data-num="" style="color:rgba(22,21,19,.4);">06</span><span style="margin-left:1.1em;color:rgba(22,21,19,.74);">The People</span></div>
+
+  <!-- Sarah · node -->
+  <div class="rise" style="position:absolute;left:1060px;top:205px;width:160px;height:160px;border-radius:50%;overflow:hidden;filter:grayscale(1) contrast(1.05);box-shadow:0 22px 40px -18px rgba(22,21,19,.55);animation-delay:.55s;">
+    <image-slot id="founder-sarah" src="assets/sarah.jpg" shape="circle" style="width:160px;height:160px;display:block;" placeholder="Drop portrait"></image-slot>
+  </div>
+  <div class="rise" style="position:absolute;left:1010px;top:381px;width:260px;text-align:center;animation-delay:.68s;"><span style="font-weight:300;font-size:27px;letter-spacing:-.01em;">Sarah Holcman</span><sup style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:rgba(22,21,19,.55);position:relative;top:-.7em;margin-left:3px;">01</sup></div>
+
+  <!-- Nitsan · node -->
+  <div class="rise" style="position:absolute;left:250px;top:125px;width:160px;height:160px;border-radius:50%;overflow:hidden;filter:grayscale(1) contrast(1.05);box-shadow:0 22px 40px -18px rgba(22,21,19,.55);animation-delay:.9s;">
+    <img src="assets/nitsan.jpg" alt="Nitsan Margaliot" style="width:160px;height:160px;object-fit:cover;object-position:50% 22%;display:block;">
+  </div>
+  <div class="rise" style="position:absolute;left:200px;top:301px;width:260px;text-align:center;animation-delay:1s;"><span style="font-weight:300;font-size:27px;letter-spacing:-.01em;">Nitsan Margaliot</span><sup style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:rgba(22,21,19,.55);position:relative;top:-.7em;margin-left:3px;">03</sup></div>
+
+  <!-- Tamar · node -->
+  <div class="rise" style="position:absolute;left:580px;top:425px;width:160px;height:160px;border-radius:50%;overflow:hidden;filter:grayscale(1) contrast(1.05);box-shadow:0 22px 40px -18px rgba(22,21,19,.55);animation-delay:1.05s;">
+    <img src="assets/tamar.jpg" alt="Tamar Sonn" style="width:160px;height:160px;object-fit:cover;object-position:50% 20%;display:block;">
+  </div>
+  <div class="rise" style="position:absolute;left:530px;top:601px;width:260px;text-align:center;animation-delay:1.15s;"><span style="font-weight:300;font-size:27px;letter-spacing:-.01em;">Tamar Sonn</span><sup style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:rgba(22,21,19,.55);position:relative;top:-.7em;margin-left:3px;">02</sup></div>
+
+  <!-- intersection annotation on the Nitsan–Tamar edge -->
+  <div class="rise" style="position:absolute;left:365px;top:355px;transform:translate(-50%,-50%);background:transparent;padding:3px 12px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:rgba(22,21,19,.5);text-align:center;line-height:1.5;animation-delay:1.1s;">Co-founded The Platform for<br>Independent Dancers · 2020</div>
+
+  <!-- intersection annotation · all three · Institute 2022 -->
+  <div class="rise" style="position:absolute;left:715px;top:335px;transform:translate(-50%,-50%);background:transparent;padding:3px 12px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:rgba(22,21,19,.5);text-align:center;line-height:1.5;animation-delay:1.22s;">Formed the Institute · 2022</div>
+
+  <!-- field-notes label on divider -->
+  <div class="rise" style="position:absolute;right:130px;top:640px;transform:translateY(-50%);background:#f4f2ee;padding-left:14px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(22,21,19,.42);animation-delay:1.2s;">Field Notes</div>
+
+  <!-- footnotes -->
+  <div class="rise" style="position:absolute;left:130px;right:130px;top:672px;display:grid;grid-template-columns:1fr 1fr 1fr;column-gap:56px;align-items:start;animation-delay:1.3s;">
+    <div style="font-weight:300;font-size:11.5px;line-height:1.45;color:rgba(22,21,19,.5);direction:rtl;text-align:right;"><span style="font-size:18.5px;letter-spacing:-.015em;color:#161513;font-weight:400;line-height:1.12;display:inline-block;"><sup style="font-size:11px;margin-right:6px;opacity:.6;">03</sup>ניצן מרגליות · מייסד שותף</span><br>כוריאוגרף, אוצר, רקדן, חוקר ומארגן קהילת מחול.<br>עבודתו של ניצן משתרעת על פני מופע, פרקטיקה ארכיונית, מחקר אמנותי ויוזמה ארגונית. הוא רקד באנסמבל בת שבע לפני שבנה קריירה בינלאומית עם עבודות שהוצגו ברחבי אירופה וארה״ב. הוא יזם פרויקט ארכיון-אלטרנטיבי, אצר במשותף פסטיבלים ותערוכות, ובשנת 2020 יזם עם תמר סון את הפלטפורמה עבור רקדניות.ים עצמאיות.ים בישראל.</div>
+    <div style="font-weight:300;font-size:11.5px;line-height:1.45;color:rgba(22,21,19,.5);direction:rtl;text-align:right;"><span style="font-size:18.5px;letter-spacing:-.015em;color:#161513;font-weight:400;line-height:1.12;display:inline-block;"><sup style="font-size:11px;margin-right:6px;opacity:.6;">02</sup>תמר סון · מייסדת שותפה</span><br>רקדנית, אסיסטנטית לכוריאוגרפית, פעילת ויזמת קהילת מחול.<br>הקריירה של תמר משתרעת על פני מופע, שיתופי פעולה וארגון. היא הופיעה בעבודותיהן.ם של מגוון רחב של להקות וכוריאוגרפיות.ים, ומאז 2019 היא משתפת פעולה ומשמשת אסיסטנטית לכוריאוגרפית קאט ואלאסטור הפועלת בברלין. בשנת 2020 יזמה יחד עם ניצן מרגליות את הפלטפורמה עבור רקדניות.ים עצמאיות.ים בישראל, מתוך בניית תנאים ברי-קיימא לעובדות.ים העצמאיות.ים בשדה.</div>
+    <div style="font-weight:300;font-size:11.5px;line-height:1.45;color:rgba(22,21,19,.5);direction:rtl;text-align:right;"><span style="font-size:18.5px;letter-spacing:-.015em;color:#161513;font-weight:400;line-height:1.12;display:inline-block;"><sup style="font-size:11px;margin-right:6px;opacity:.6;">01</sup>שרה הולצמן<br>מייסדת שותפה · מנהלת אמנותית ומנכ״לית</span><br>אמנית מחול, מנהלת אמנותית, אוצרת ומפיקה עם מעל 20 שנה בשדה.<br>בין תפקידיה הקודמים: מרכז המחול גיבני, Movement Research ו־92nd Street Y (ניו יורק) — אצירה וניהול של תוכניות רזידנסי, סדרות עבודה-בתהליך ותוכניות משאבים לאמניות.ים; ותוכנית ה־ MFA במחול של אוניברסיטת הולינס ופסטיבל המחול האמריקאי. 2015–2022 · מנהלת תוכניות ויחסים בינלאומיים במרכז סוזן דלל למחול — אחראית על אצירה בינלאומית, ניהול ״חשיפה בינלאומית״ ויזום תוכניות פיתוח כוריאוגרפיות והרזידנסים הראשונים של המרכז.</div>
+  </div>
+</section>
+
+<!-- ══════════════ 07 · BODY OF WORK ══════════════ -->
+<section data-label="Body of Work" data-screen-label="07 Body of Work" data-speaker-notes="Here's where we're headed. In 2027 we're launching a new program, Body of Work — a pilot of long-term choreographic research residencies. Four working groups, each with one choreographer, five to fifteen dancers, and mentors from dramaturgy, writing and dance research. Each group takes part in a two-month studio residency devoted entirely to research, with no expectation of a final product. We have two confirmed partners, and we're securing the remaining funding and partnerships now." style="position:relative;width:1440px;height:900px;background:#c4c4c2;color:#161513;font-family:'SimplerPro',sans-serif;overflow:hidden;">
+  <svg viewBox="0 0 1440 900" width="1440" height="900" style="position:absolute;inset:0;" fill="none">
+    <path class="draw" pathLength="1" d="M1015 168 L1305 168 L1160 428 Z" stroke="#161513" stroke-opacity="0.13" stroke-width="1" style="animation-delay:.6s"></path>
+  </svg>
+
+  <!-- marker -->
+  <div class="rise" style="position:absolute;left:64px;top:64px;font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:.16em;text-transform:uppercase;text-align:left;animation-delay:.35s;"><span data-num="" style="color:rgba(22,21,19,.4);">07</span><span style="margin-left:1.1em;color:rgba(22,21,19,.74);">The New Program · 2027</span></div>
+
+  <!-- headline (RTL) -->
+  <div class="rise" style="position:absolute;right:130px;top:200px;font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:rgba(22,21,19,.55);text-align:right;animation-delay:.5s;">Body of Work</div>
+  <div class="rise" style="position:absolute;right:130px;top:230px;font-weight:300;font-size:104px;line-height:.98;letter-spacing:-.02em;direction:rtl;text-align:right;animation-delay:.56s;">גוף עבודה</div>
+
+  <!-- description (RTL-aligned) -->
+  <div class="rise" style="position:absolute;right:130px;top:350px;width:1180px;font-weight:300;font-size:31px;line-height:1.42;color:#3a3a38;text-align:right;direction:rtl;animation-delay:.66s;">תכנית פיילוט של שהויות אמן (רזידנסי) ארוכות טווח לפיתוח אמנותי עבור כוריאוגרפיות.ים, רקדניות.ים וקהילת המחול המקצועית. ארבע קבוצות עבודה, וכל אחת תורכב מכוריאוגרפית אחת,<br>5–15 רקדניות.ים ומלוות.ים מתחומי הדרמטורגיה, הכתיבה וחקר המחול. כל קבוצה תשתתף ברזידנסי סטודיו בן חודשיים של מחקר אמנותי ללא ציפייה לתוצר סופי — פיתוח חומרים כוריאוגרפיים חדשים או קיימים, רפרטואר, אימפרוביזציה ופרקטיקות מופע.</div>
+
+  <!-- footer: partners + status (RTL: confirmed on right) -->
+  <div class="rise" style="position:absolute;right:130px;bottom:96px;width:520px;text-align:right;animation-delay:.82s;">
+    <div style="width:100%;height:1px;background:rgba(22,21,19,.22);"></div>
+    <div style="margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,21,19,.5);">Confirmed Partners</div>
+    <div style="margin-top:12px;font-weight:300;font-size:27px;line-height:1.4;direction:rtl;">בכורי העיתים<br>המרכז הערבי יהודי ביפו</div>
+  </div>
+  <div class="rise" style="position:absolute;left:130px;bottom:96px;width:550px;text-align:right;animation-delay:.92s;">
+    <div style="width:100%;height:1px;background:rgba(22,21,19,.22);"></div>
+    <div style="margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,21,19,.5);">In Progress</div>
+    <div style="margin-top:12px;font-weight:300;font-size:27px;line-height:1.45;color:#3a3a38;direction:rtl;">הוגשה בקשה למועצת מפעל הפיס<br>גיוס תקציב ושותפים נוספים</div>
+  </div>  <!-- signature primitives, vertical, bottom-left -->
+  <svg class="fade" viewBox="0 0 30 120" width="30" height="120" style="position:absolute;left:64px;bottom:96px;animation-delay:.7s;" fill="none">
+    <path d="M2 4 L28 4 L15 26 Z" stroke="#161513" stroke-width="1.2"></path>
+    <path d="M8.5 46 a13 13 0 0 1 0 26 Z" fill="#161513"></path>
+    <circle cx="15" cy="102" r="13" stroke="#161513" stroke-width="1.2"></circle>
+  </svg>
+</section>
+
+<!-- ══════════════ 06 · AN INVITATION ══════════════ -->
+<section data-label="What We Need" data-speaker-notes="To grow this, here is what we need. Project support — budgets for the programs. Space partnerships — studios and meeting spaces to host residencies and events. Institutional partnerships — so the Institute becomes part of the existing cultural fabric rather than working alongside it. And advocacy and recognition, so we're established as an anchor in the professional dance field here and included in public cultural funding. Individually these are modest; together, they're what make the work sustainable." style="position:relative;width:1440px;height:900px;background:#161513;color:#f4f2ee;font-family:'SimplerPro',sans-serif;overflow:hidden;">
+  <!-- full-bleed image -->
+  <img class="fade" src="assets/closing.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:100% 42%;transform:scale(1.12);transform-origin:100% 42%;filter:grayscale(1) contrast(1.04) brightness(.72);animation-delay:.2s;">
+  <!-- scrims -->
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,21,19,.72) 0%,rgba(22,21,19,.28) 34%,rgba(22,21,19,.4) 62%,rgba(22,21,19,.9) 100%);"></div>
+
+  <svg viewBox="0 0 1440 900" width="1440" height="900" style="position:absolute;inset:0;" fill="none">
+  </svg>
+
+  <!-- signature primitives -->
+  <svg class="fade" viewBox="0 0 120 30" width="120" height="30" style="position:absolute;right:130px;top:150px;animation-delay:.8s;" fill="none">
+    <path d="M2 4 L28 4 L15 26 Z" stroke="#f4f2ee" stroke-width="1.2"></path>
+    <path d="M46 4 a13 13 0 0 1 0 26 Z" fill="#f4f2ee"></path>
+    <circle cx="102" cy="15" r="13" stroke="#f4f2ee" stroke-width="1.2"></circle>
+  </svg>
+
+  <!-- marker -->
+  <div class="rise" style="position:absolute;left:64px;top:64px;font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:.16em;text-transform:uppercase;text-align:left;animation-delay:.5s;"><span data-num="" style="color:rgba(244,242,238,.45);">08</span><span style="margin-left:1.1em;color:rgba(244,242,238,.82);">The Future</span></div>
+
+  <!-- headline -->
+  <div class="rise" style="position:absolute;right:130px;top:180px;width:1000px;font-weight:300;font-size:70px;line-height:1.0;letter-spacing:-.03em;text-align:right;direction:rtl;animation-delay:.6s;">מה שנדרש כדי לצמוח</div>
+
+  <!-- needs list -->
+  <div style="position:absolute;right:130px;top:284px;width:1180px;">
+    <div class="rise" style="animation-delay:.8s;">
+      <div style="display:flex;justify-content:flex-end;align-items:baseline;gap:16px;padding:18px 0 5px;text-align:right;"><span style="font-weight:300;font-size:40px;letter-spacing:-.01em;">תמיכה בפרויקטים</span><svg width="14" height="13" viewBox="0 0 13 12" style="flex:none;"><path d="M1 2 L12 2 L6.5 11 Z" fill="#f4f2ee"></path></svg></div>
+      <div style="font-weight:300;font-size:28px;line-height:1.4;color:rgba(244,242,238,.62);text-align:right;direction:rtl;padding-bottom:20px;">תקציבים עבור תוכניות</div>
+    </div>
+    <div class="rise" style="animation-delay:.9s;">
+      <div style="display:flex;justify-content:flex-end;align-items:baseline;gap:16px;padding:18px 0 5px;text-align:right;"><span style="font-weight:300;font-size:40px;letter-spacing:-.01em;">שותפויות סטודיו</span><svg width="14" height="13" viewBox="0 0 13 12" style="flex:none;"><path d="M1 2 L12 2 L6.5 11 Z" fill="#f4f2ee"></path></svg></div>
+      <div style="font-weight:300;font-size:28px;line-height:1.4;color:rgba(244,242,238,.62);text-align:right;direction:rtl;padding-bottom:20px;">חללי סטודיו ומרחבי מפגש לאירוח רזידנסים ואירועים</div>
+    </div>
+    <div class="rise" style="animation-delay:1s;">
+      <div style="display:flex;justify-content:flex-end;align-items:baseline;gap:16px;padding:18px 0 5px;text-align:right;"><span style="font-weight:300;font-size:40px;letter-spacing:-.01em;">שותפויות מוסדיות</span><svg width="14" height="13" viewBox="0 0 13 12" style="flex:none;"><path d="M1 2 L12 2 L6.5 11 Z" fill="#f4f2ee"></path></svg></div>
+      <div style="font-weight:300;font-size:28px;line-height:1.4;color:rgba(244,242,238,.62);text-align:right;direction:rtl;padding-bottom:20px;">שותפויות לשיתוף פעולה · שילוב המכון במסגרות ויוזמות תרבותיות קיימות כשכבת תמיכה נוספת</div>
+    </div>
+    <div class="rise" style="animation-delay:1.1s;">
+      <div style="display:flex;justify-content:flex-end;align-items:baseline;gap:16px;padding:18px 0 5px;text-align:right;"><span style="font-weight:300;font-size:40px;letter-spacing:-.01em;">סנגור והכרה</span><svg width="14" height="13" viewBox="0 0 13 12" style="flex:none;"><path d="M1 2 L12 2 L6.5 11 Z" fill="#f4f2ee"></path></svg></div>
+      <div style="font-weight:300;font-size:28px;line-height:1.4;color:rgba(244,242,238,.62);text-align:right;direction:rtl;padding-bottom:20px;">ביסוס המכון כעוגן בתשתית המחול המקצועית של תל אביב-יפו · הכללה במימון התרבות העירוני והממשלתי</div>
+    </div>
+  </div>
+
+  <!-- logo removed -->
+
+  <div class="rise" style="position:absolute;right:130px;bottom:20px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(244,242,238,.4);white-space:nowrap;text-align:right;animation-delay:1.2s;">Noa Shadur · Entropy · photo Gadi Dagon</div>
+</section>
+
+<!-- ══════════════ 07 · VOICES FROM THE FIELD (II) ══════════════ -->
+<section data-label="Voices II" data-speaker-notes="One more voice before we close. This is Talia Beck, a choreographer and Circle artist, on what it means to share her process and not carry it alone. I'll give her the moment." style="position:relative;width:1440px;height:900px;background:#f4f2ee;color:#161513;font-family:'SimplerPro',sans-serif;overflow:hidden;">
+  <!-- star-map / blueprint background -->
+  <svg viewBox="0 0 1440 900" width="1440" height="900" style="position:absolute;inset:0;" fill="none">
+    <!-- constellation edge connecting the two voices -->
+    <line class="draw" pathLength="1" x1="300" y1="560" x2="1140" y2="320" stroke="#161513" stroke-opacity="0.24" stroke-width="1" style="animation-delay:.6s"></line>
+    <!-- faint long guides -->
+    <line class="draw" pathLength="1" x1="120" y1="150" x2="1320" y2="150" stroke="#161513" stroke-opacity="0.1" stroke-width="1" style="animation-delay:.4s"></line>
+    <line class="draw" pathLength="1" x1="720" y1="120" x2="720" y2="800" stroke="#161513" stroke-opacity="0.1" stroke-width="1" style="animation-delay:.5s"></line>
+    <!-- node halos around portraits -->
+    <circle class="draw" pathLength="1" cx="300" cy="560" r="184" stroke="#161513" stroke-opacity="0.1" stroke-width="1" style="animation-delay:.85s"></circle>
+    <circle class="draw" pathLength="1" cx="1140" cy="320" r="184" stroke="#161513" stroke-opacity="0.1" stroke-width="1" style="animation-delay:.95s"></circle>
+    <!-- scattered background stars -->
+    <circle cx="200" cy="180" r="2.2" fill="#161513" fill-opacity="0.26"></circle>
+    <circle cx="1250" cy="200" r="1.8" fill="#161513" fill-opacity="0.22"></circle>
+    <circle cx="640" cy="240" r="1.6" fill="#161513" fill-opacity="0.2"></circle>
+    <circle cx="905" cy="540" r="2" fill="#161513" fill-opacity="0.24"></circle>
+    <circle cx="470" cy="720" r="1.7" fill="#161513" fill-opacity="0.2"></circle>
+    <circle cx="1185" cy="650" r="2.1" fill="#161513" fill-opacity="0.24"></circle>
+    <circle cx="360" cy="330" r="1.5" fill="#161513" fill-opacity="0.2"></circle>
+    <circle cx="1015" cy="150" r="1.8" fill="#161513" fill-opacity="0.22"></circle>
+    <circle cx="560" cy="470" r="1.6" fill="#161513" fill-opacity="0.2"></circle>
+    <!-- tick crosses -->
+    <path d="M150 640 h13 M156.5 633.5 v13" stroke="#161513" stroke-opacity="0.3" stroke-width="1"></path>
+    <path d="M1288 420 h13 M1294.5 413.5 v13" stroke="#161513" stroke-opacity="0.3" stroke-width="1"></path>
+  </svg>
+
+  <!-- ghost quote marks -->
+  <div class="fade" style="position:absolute;left:118px;top:118px;font-weight:300;font-size:150px;line-height:.5;color:rgba(22,21,19,.14);animation-delay:.5s;">”</div>
+
+  <!-- two-voice wall (staggered) -->
+  <div style="position:absolute;left:50%;transform:translateX(-50%);top:150px;width:1140px;display:grid;grid-template-columns:1fr 1fr;column-gap:96px;align-items:start;">
+
+    <!-- Olivia Court Mesa · English · LEFT · quote over photo -->
+    <div class="rise" style="display:flex;flex-direction:column;align-items:flex-start;animation-delay:.7s;">
+      <div style="max-width:460px;font-weight:300;font-size:20px;line-height:1.55;text-align:left;color:#161513;">The Choreographers Circle was an amazing experience. Sharing my practice, doubts, and questions with other makers holds incredible power for growth and development. Being a choreographer takes on a whole new meaning when it becomes a shared experience.</div>
+      <div style="position:relative;width:300px;height:300px;margin:44px 0 0 0;">
+        <div style="position:absolute;inset:0;border-radius:50%;overflow:hidden;filter:grayscale(1) contrast(1.05);box-shadow:0 26px 46px -20px rgba(22,21,19,.5);">
+          <img src="assets/olivia-portrait-v2.jpg" alt="Olivia Court Mesa" style="width:300px;height:300px;display:block;object-fit:cover;object-position:50% 30%;">
+        </div>
+        <div style="position:absolute;inset:-18px;border-radius:50%;border:1px solid rgba(22,21,19,.18);"></div>
+      </div>
+      <div class="grow" style="width:48px;height:1px;background:#161513;margin:26px auto 0 0;transform-origin:left center;"></div>
+      <div style="margin-top:14px;font-weight:300;font-size:23px;line-height:1.1;text-align:left;color:#161513;">Olivia Court Mesa</div>
+      <div style="margin-top:4px;font-weight:300;font-size:16.5px;line-height:1.2;direction:rtl;text-align:left;color:#6f6d67;">אוליביה קורט מסה</div>
+    </div>
+
+    <!-- Annabelle Dvir · Hebrew · RIGHT · photo over name over quote -->
+    <div class="rise" style="display:flex;flex-direction:column;align-items:flex-end;animation-delay:.84s;">
+      <div style="position:relative;width:300px;height:300px;">
+        <div style="position:absolute;inset:0;border-radius:50%;overflow:hidden;filter:grayscale(1) contrast(1.05);box-shadow:0 26px 46px -20px rgba(22,21,19,.5);">
+          <img src="assets/annabelle-final2.jpg" alt="Annabelle Dvir" style="width:300px;height:300px;display:block;object-fit:cover;object-position:50% 50%;">
+        </div>
+        <div style="position:absolute;inset:-18px;border-radius:50%;border:1px solid rgba(22,21,19,.18);"></div>
+      </div>
+      <div class="grow" style="width:48px;height:1px;background:#161513;margin:26px 0 0 auto;transform-origin:right center;"></div>
+      <div style="margin-top:14px;font-weight:300;font-size:23px;line-height:1.1;direction:rtl;text-align:right;color:#161513;">אנאבל דביר</div>
+      <div style="margin-top:4px;font-weight:300;font-size:16.5px;line-height:1.2;text-align:right;color:#6f6d67;">Annabelle Dvir</div>
+      <div style="max-width:460px;margin-top:30px;font-weight:300;font-size:18px;line-height:1.55;direction:rtl;text-align:right;color:#161513;">אני חשה בדידות עצומה מרבית מהזמן ומודה על רגעים של שיתוף מעמיק, תמיכה ורגעי מחשבה קולקטיבית. תקופה ארוכה ומתמשכת עם מפגשים חשובים ומגוונים. שיתוף, למידה והכוונה אישית בהם הרגשתי מראות שונות-חדשות להתבונן על השדה, על חיי היצירה שלי ובמקביל לאנסמבל מתפתח. על קשיים ופריחה בו במקביל. משמעותי בכל שלב.</div>
+    </div>
+
+  </div>
+
+  <!-- slide marker -->
+  <div class="rise" style="position:absolute;left:64px;top:64px;font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:.16em;text-transform:uppercase;text-align:left;animation-delay:.4s;"><span data-num="" style="color:rgba(22,21,19,.4);">09</span><span style="margin-left:1.1em;color:rgba(22,21,19,.74);">Voices from the Field</span></div>
+</section>
+
+<!-- ══════════════ 10 · CLOSE ══════════════ -->
+<section data-label="Close" data-speaker-notes="That's the Institute. If this resonates with you, we'd welcome the chance to build it together. You can find everything at choreoinstitute.org, and I'd be glad to continue the conversation. Thank you." style="position:relative;width:1440px;height:900px;background:#161513;color:#f4f2ee;font-family:'SimplerPro',sans-serif;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <img class="rise" src="assets/logo.jpg" alt="The Choreographic Institute" style="width:820px;height:auto;filter:invert(1);mix-blend-mode:screen;animation-delay:.35s;">
+  <div class="rise" style="margin-top:44px;font-family:'IBM Plex Mono',monospace;font-size:18px;letter-spacing:.24em;text-transform:uppercase;color:rgba(244,242,238,.68);animation-delay:.65s;">www.choreoinstitute.org</div>
+</section>
+
+</x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1440, &quot;height&quot;: 900 },
+  &quot;motion&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Motion&quot;, &quot;label&quot;: &quot;Entrance animations&quot; },
+  &quot;backgroundGeometry&quot;: { &quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 100, &quot;min&quot;: 0, &quot;max&quot;: 100, &quot;step&quot;: 5, &quot;unit&quot;: &quot;%&quot;, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Style&quot;, &quot;label&quot;: &quot;Background lines and shapes&quot; },
+  &quot;showSlideNumbers&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Style&quot;, &quot;label&quot;: &quot;Show slide numbers&quot; }
+}">
+class Component extends DCLogic {
+  componentDidMount() { this._apply(); }
+  componentDidUpdate() { this._apply(); }
+  _apply() {
+    const p = this.props || {};
+    const motion = p.motion !== false;
+    const geo = (p.backgroundGeometry == null ? 100 : p.backgroundGeometry) / 100;
+    const showNums = p.showSlideNumbers !== false;
+    let css = `section > svg{opacity:${geo};}`;
+    if (!showNums) css += `[data-num]{display:none !important;}`;
+    if (!motion) {
+      css += `section .rise{opacity:1 !important;transform:none !important;animation:none !important;}`
+          +  `section .fade{opacity:1 !important;animation:none !important;}`
+          +  `section .draw{stroke-dashoffset:0 !important;animation:none !important;}`
+          +  `section .clip,section .clipd{clip-path:none !important;animation:none !important;}`
+          +  `section .grow{transform:scaleX(1) !important;animation:none !important;}`;
+    }
+    let el = document.getElementById('tci-tweaks');
+    if (!el) { el = document.createElement('style'); el.id = 'tci-tweaks'; document.head.appendChild(el); }
+    el.textContent = css;
+  }
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
