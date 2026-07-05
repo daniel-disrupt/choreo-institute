@@ -33,6 +33,22 @@
   })();
 </script>
 <script>
+  // Some embed hosts (e.g. a Wix iframe without an explicit allow="autoplay")
+  // apply a permissions policy that blocks autoplay even for muted video.
+  // A user gesture always grants playback, so retry any stalled autoplay
+  // video on the first tap/click/keypress anywhere in the deck.
+  (function(){
+    function retryAll(){
+      document.querySelectorAll('video[autoplay]').forEach(function(v){
+        if (v.paused) { v.play().catch(function(){}); }
+      });
+    }
+    ['pointerdown', 'keydown'].forEach(function(evt){
+      document.addEventListener(evt, retryAll, { passive: true });
+    });
+  })();
+</script>
+<script>
   // The deck-stage element is mounted by the runtime as a real DOM node;
   // the `no-rail` attribute can't be passed through the <x-import> prop
   // bridge (it camelCases hyphenated props, so it lands as a useless
